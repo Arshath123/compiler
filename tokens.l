@@ -9,6 +9,9 @@
    void response(char*);
 %}
 
+
+%x IN_COMMENT
+
 alpha      [a-zA-Z]
 digit      [0-9]
 alnum      {alpha}|{digit}
@@ -56,6 +59,21 @@ FCONST     {digit}+"."{digit}+
 "="      { response("ASSIGN"); }
 "&"      { response("REFER"); }
 
+"//".*   { ;}
+
+<INITIAL>{
+
+"/*"      BEGIN(IN_COMMENT);
+
+}
+<IN_COMMENT>{
+
+"*/"      BEGIN(INITIAL);
+[^*\n]+   ;
+"*"       ;
+\n        {lineno += 1;};
+
+}
 
 {ID}         { response("ID"); }
 {ICONST}     { response("ICONST"); }
