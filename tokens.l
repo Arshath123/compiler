@@ -23,6 +23,7 @@ FCONST     {digit}+"."{digit}+
 %%
 
 "char"      { response("KEYWORD_CHAR"); }
+"void"      { response("KEYWORD_VOID");}
 "int"       { response("KEYWORD_INT"); }
 "float"     { response("KEYWORD_FLOAT"); }
 "double"    { response("KEYWORD_DOUBLE"); }
