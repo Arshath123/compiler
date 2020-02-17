@@ -1,2 +1,6 @@
 lex.yy.c
 a.out
+.vscode
+parser.tab.c
+lex.yy.c
+parser.tab.h
