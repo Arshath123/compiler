@@ -15,17 +15,48 @@ FCONST     {digit}+"."{digit}+
 
 %%
 
-"char" { return CHAR ; }
+	/*..........DATATYPES..........*/
+"char"      { return CHAR ; }
 "int"       { return INT ; }
 "float"     { return FLOAT ; }
 "double"    { return DOUBLE; }
 
+	/*..........CONDITIONAL KEYWORDS..........*/
+"else if"   {return ELSEIF;}
+"else"      {return ELSE;}
+"if"        {return IF;}
+
+	
 ";"      { return SEMICOLON;} 
 ","      { return COMMA; }
 "="      { return ASSIGN; }
 
-"["   {return SOBRAC;}
-"]"   {return SCBRAC;}
+	/*..........ARITHMETIC OPERATORS..........*/
+"+"      {return PLUS;}
+"-"      {return MINUS;}
+"/"      {return DIVIDE;}
+"++"     {return INC;}
+"--"     {return DEC;}
+
+"||"     {return OR;}
+"&&"     {return AND;}
+"!"     {return NOT;}
+
+
+"=="     {return EQ;}
+"!="     {return NEQ;}
+"<"     {return LT;}
+">"     {return GT;}
+"<="     {return LTE;}
+">="     {return GTE;}
+
+	/*..........DATATYPES..........*/
+"["     {return SOBRAC;}
+"]"     {return SCBRAC;}
+"("     {return ROBRAC;}
+")"     {return RCBRAC;}
+"{"     {return COBRAC;}
+"}"     {return CCBRAC;}
 
 "*"   {return POINTER;}
 
@@ -34,7 +65,7 @@ FCONST     {digit}+"."{digit}+
 {ICONST}     { return ICONST; }
 {FCONST}     { return FCONST; }
 
-
+	/**/
 
 "//".*   { ;}
 
