@@ -12,62 +12,93 @@ int yylex();
 %token ROBRAC RCBRAC COBRAC CCBRAC SOBRAC SCBRAC
 %token POINTER
 %token IF ELSEIF ELSE
-%token PLUS MINUS DIVIDE INC DEC
-%token OR AND NOT
+%token PLUS MINUS DIVIDE INC DEC MOD
+%token OR AND NOT BOR BAND BNOT XOR BLSHIFT BRSHIFT
 %token EQ NEQ LT LTE GT GTE
+
+%left COMMA
+%left OR 
+%left AND
+%left BOR
+%left XOR
+%left BAND
+%left EQ NEQ
+%left LT LTE GT GTE
+%left BLSHIFT BRSHIFT
+%left PLUS MINUS
+%left POINTER DIVIDE MOD
+
+%right INC DEC
+%right BNOT NOT
+%right ASSIGN
 
 %define parse.error verbose
 
 %start program
 %%
 
-program : declarations;
+program:    program statement SEMICOLON;
+    |       
 
-declarations : declarations declaration | declaration;
+statement: declaration | assignment | unary | ICONST;
 
-declaration : type name SEMICOLON ;
+declaration: type name;
 
-name : name COMMA declare | declare;
+name: name COMMA declare | declare;
 
-declare : variables ASSIGN expression | variables ;
-
-type : CHAR | INT | FLOAT | DOUBLE;
+declare: assignment | variables ;
 	
-pointer : pointer POINTER | POINTER;
+type: INT | FLOAT | CHAR | DOUBLE;
 
-array : array array_dim | array_dim ;
+assignment: variables ASSIGN expression;
 
-array_dim : SOBRAC ICONST SCBRAC;
+expression: expression PLUS expression 
+    |       expression MINUS expression    
+    |       expression DIVIDE expression
+    |       expression POINTER expression
+    |       expression MOD expression
+    |       expression OR expression
+    |       expression AND expression
+    |       expression EQ expression
+    |       expression NEQ expression
+    |       expression LT expression
+    |       expression LTE expression
+    |       expression GTE expression
+    |       expression GT expression
+    |       BOR expression
+    |       BAND expression
+    |       expression XOR expression
+    |       BNOT expression
+    |       NOT expression 
+    |       expression BLSHIFT expression
+    |       expression BRSHIFT expression
+    |       ROBRAC expression RCBRAC
+    |       INC expression
+    |       expression INC
+    |       DEC expression
+    |       expression DEC
+    |       MINUS variables
+    |       ICONST
+    |       variables;
 
+unary:      unary INC
+    |       INC unary
+    |       DEC unary
+    |       unary DEC
+    |       variables
+    ;
 
-variables : ID 
-        | pointer ID ;
-        | ID array;
+variables:
+        ID multi_dim
+        | pointer ID multi_dim;
 
+multi_dim: array | ;
 
+pointer: pointer POINTER | POINTER;
 
-expression :   expression operation variables 
-	|	
-                variables INC 
-        |
-                variables DEC
-        |
-                INC variables 
-        |
-                DEC variables 
-        |
-                NOT variables  
-	|
-		ROBRAC expression RCBRAC
-	| 	
-		variables
-        | 
-                ICONST
-;
+array: array array_dim | array_dim;
 
-operation : PLUS | MINUS | POINTER | DIVIDE | OR | AND | NOT | EQ | NEQ | LT | GT | LTE | GTE
-
-;
+array_dim: SOBRAC ICONST SCBRAC;
 
 
 %%

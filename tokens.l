@@ -35,13 +35,19 @@ FCONST     {digit}+"."{digit}+
 "+"      {return PLUS;}
 "-"      {return MINUS;}
 "/"      {return DIVIDE;}
+"%"		{return MOD;}
 "++"     {return INC;}
 "--"     {return DEC;}
 
 "||"     {return OR;}
 "&&"     {return AND;}
 "!"     {return NOT;}
-
+"|"		{return BOR;}
+"&" 	{return BAND;}
+"~"		{return BNOT;}
+"^"		{return XOR;}
+"<<"	{return BLSHIFT;}
+">>"	{return BRSHIFT;}
 
 "=="     {return EQ;}
 "!="     {return NEQ;}
@@ -83,7 +89,7 @@ FCONST     {digit}+"."{digit}+
 
 }
 
-"\n"		    ; 
+"\n"	; 
 [ \t\r\f]+	   ;
 .		   ;
 
