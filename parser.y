@@ -16,6 +16,7 @@ int yylex();
 %token OR AND NOT BOR BAND BNOT XOR BLSHIFT BRSHIFT
 %token EQ NEQ LT LTE GT GTE
 %token FOR WHILE DO
+%token RETURN
 
 %left COMMA
 %left OR 
@@ -48,10 +49,21 @@ source_code:    source_code program
 
 program:   function | declaration SEMICOLON;
 
-function: type ID ROBRAC arguments RCBRAC complex_statement;
+function: type ID ROBRAC arguments_with_type RCBRAC complex_statement;
 
-arguments: arguments COMMA type variables
+return_statement: RETURN expression SEMICOLON | RETURN SEMICOLON;
+
+function_call:  type variables ASSIGN ID ROBRAC arguments_without_type RCBRAC
+        |       variables ASSIGN ID ROBRAC arguments_without_type RCBRAC
+        |      ID ROBRAC arguments_without_type RCBRAC
+        ;
+
+arguments_with_type: arguments_with_type COMMA type variables
         |  type variables
+        |;
+
+arguments_without_type: arguments_without_type  COMMA variables
+        |       variables
         |;
 
 statements:  statements statement | ;
@@ -65,10 +77,12 @@ simple_statement: if_statement
         |       while_statement
         |       dowhile_statement
         |       for_statement
+        |       function_call SEMICOLON
         |       declaration SEMICOLON
         |       assignment SEMICOLON 
         |       unary SEMICOLON
         |       ICONST SEMICOLON
+        |       return_statement
         |       SEMICOLON;
 
 declaration: type name;
@@ -154,7 +168,6 @@ pointer: pointer POINTER | POINTER;
 array: array array_dim | array_dim;
 
 array_dim: SOBRAC ICONST SCBRAC;
-
 
 type: INT | FLOAT | CHAR | DOUBLE | VOID;
 

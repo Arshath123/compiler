@@ -72,6 +72,7 @@ FCONST     {digit}+"."{digit}+
 "}"     {return CCBRAC;}
 
 "*"   {return POINTER;}
+"return"	{return RETURN;}
 
 
 {ID}         { return ID; }
