@@ -55,3 +55,25 @@ for(;;){
 while(d++,a++){
     c--;
 }
+i=0;
+do
+    **a = **a + 1;
+while (i<10);
+
+do
+{
+    if(g){
+        for(;;){
+            while(c){
+                c++;
+            }
+            g--;
+            do
+            {
+                m++;
+            } while (c++,d++);
+            
+        }
+    }
+}while (i<10);
+

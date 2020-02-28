@@ -15,7 +15,7 @@ int yylex();
 %token PLUS MINUS DIVIDE INC DEC MOD
 %token OR AND NOT BOR BAND BNOT XOR BLSHIFT BRSHIFT
 %token EQ NEQ LT LTE GT GTE
-%token FOR WHILE
+%token FOR WHILE DO
 
 %left COMMA
 %left OR 
@@ -54,6 +54,7 @@ complex_statement: COBRAC statements CCBRAC;
 
 simple_statement: if_statement 
         |       while_statement
+        |       dowhile_statement
         |       for_statement
         |       declaration SEMICOLON
         |       assignment SEMICOLON 
@@ -80,9 +81,13 @@ for_statement: FOR ROBRAC expression_statement expression_statement multi_exp RC
         |      FOR ROBRAC expression_statement expression_statement assignment RCBRAC statement
         |      FOR ROBRAC expression_statement expression_statement RCBRAC statement;
 
-while_statement: WHILE ROBRAC multi_exp RCBRAC statement
-        |        WHILE ROBRAC assignment RCBRAC statement
+while_statement: while statement;
+
+while:          WHILE ROBRAC multi_exp RCBRAC
+        |       WHILE ROBRAC assignment RCBRAC 
         ;
+
+dowhile_statement:      DO statement while SEMICOLON;
 
 assignment: variables ASSIGN multi_exp;
 

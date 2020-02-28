@@ -34,6 +34,7 @@ FCONST     {digit}+"."{digit}+
 
 "for"	{return FOR;}
 "while"	{return WHILE;}
+"do"	{return DO;}
 
 	/*..........ARITHMETIC OPERATORS..........*/
 "+"      {return PLUS;}
