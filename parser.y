@@ -76,11 +76,13 @@ if_body:        ELSE statement
         |       %prec LOWER;
 
 for_statement: FOR ROBRAC expression_statement expression_statement multi_exp RCBRAC statement
+        |      FOR ROBRAC expression_statement expression_statement assignment RCBRAC statement
         |      FOR ROBRAC expression_statement expression_statement RCBRAC statement;
 
 assignment: variables ASSIGN multi_exp;
 
-expression_statement: multi_exp SEMICOLON
+expression_statement: assignment SEMICOLON
+        |       multi_exp SEMICOLON
         |       SEMICOLON ;
 
 multi_exp: multi_exp COMMA expression
@@ -112,7 +114,6 @@ expression: expression PLUS expression
         |       DEC expression
         |       expression DEC
         |       MINUS variables
-        |       variables ASSIGN expression
         |       ICONST
         |       variables;
 
