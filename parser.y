@@ -5,7 +5,7 @@ void yyerror(const char*);
 int yylex();
 %}
 
-%token CHAR INT FLOAT DOUBLE
+%token CHAR INT FLOAT DOUBLE VOID
 %token SEMICOLON COMMA ASSIGN
 %token ID
 %token ICONST FCONST
@@ -40,10 +40,19 @@ int yylex();
 
 %define parse.error verbose
 
-%start program
+%start source_code
 %%
 
-program:   statements;
+source_code:    source_code program
+        |       program;
+
+program:   function | declaration SEMICOLON;
+
+function: type ID ROBRAC arguments RCBRAC complex_statement;
+
+arguments: arguments COMMA type variables
+        |  type variables
+        |;
 
 statements:  statements statement | ;
 
@@ -68,8 +77,6 @@ name: name COMMA declare | declare;
 
 declare: assignment | variables ;
 	
-type: INT | FLOAT | CHAR | DOUBLE;
-
 if_statement:   IF ROBRAC multi_exp RCBRAC statement if_body;
 
 if_body:        ELSE statement
@@ -125,6 +132,7 @@ expression: expression PLUS expression
         |       expression DEC
         |       MINUS variables
         |       ICONST
+        |       FCONST
         |       variables;
 
 unary:      unary INC
@@ -146,6 +154,9 @@ pointer: pointer POINTER | POINTER;
 array: array array_dim | array_dim;
 
 array_dim: SOBRAC ICONST SCBRAC;
+
+
+type: INT | FLOAT | CHAR | DOUBLE | VOID;
 
 
 %%

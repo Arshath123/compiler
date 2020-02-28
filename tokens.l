@@ -20,6 +20,7 @@ FCONST     {digit}+"."{digit}+
 "int"       { return INT ; }
 "float"     { return FLOAT ; }
 "double"    { return DOUBLE; }
+"void"		{return VOID;}
 
 	/*..........CONDITIONAL KEYWORDS..........*/
 "else if"   {return ELSEIF;}
