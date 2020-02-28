@@ -15,6 +15,7 @@ int yylex();
 %token PLUS MINUS DIVIDE INC DEC MOD
 %token OR AND NOT BOR BAND BNOT XOR BLSHIFT BRSHIFT
 %token EQ NEQ LT LTE GT GTE
+%token FOR WHILE
 
 %left COMMA
 %left OR 
@@ -52,10 +53,12 @@ statement:     simple_statement
 complex_statement: COBRAC statements CCBRAC;
 
 simple_statement: if_statement 
+        |       for_statement
         |       declaration SEMICOLON
         |       assignment SEMICOLON 
         |       unary SEMICOLON
-        |       ICONST SEMICOLON;
+        |       ICONST SEMICOLON
+        |       SEMICOLON;
 
 declaration: type name;
 
@@ -65,57 +68,67 @@ declare: assignment | variables ;
 	
 type: INT | FLOAT | CHAR | DOUBLE;
 
-
-if_statement:   IF ROBRAC expression RCBRAC statement if_body;
+if_statement:   IF ROBRAC multi_exp RCBRAC statement if_body;
 
 if_body:        ELSE statement
-        |       ELSEIF ROBRAC expression RCBRAC statement %prec LOWER
-        |       ELSEIF ROBRAC expression RCBRAC statement ELSE statement
+        |       ELSEIF ROBRAC multi_exp RCBRAC statement %prec LOWER
+        |       ELSEIF ROBRAC multi_exp RCBRAC statement ELSE statement
         |       %prec LOWER;
 
-assignment: variables ASSIGN expression;
+for_statement: FOR ROBRAC expression_statement expression_statement multi_exp RCBRAC statement
+        |      FOR ROBRAC expression_statement expression_statement RCBRAC statement;
+
+assignment: variables ASSIGN multi_exp;
+
+expression_statement: multi_exp SEMICOLON
+        |       SEMICOLON ;
+
+multi_exp: multi_exp COMMA expression
+        |       expression;
 
 expression: expression PLUS expression 
-    |       expression MINUS expression    
-    |       expression DIVIDE expression
-    |       expression POINTER expression
-    |       expression MOD expression
-    |       expression OR expression
-    |       expression AND expression
-    |       expression EQ expression
-    |       expression NEQ expression
-    |       expression LT expression
-    |       expression LTE expression
-    |       expression GTE expression
-    |       expression GT expression
-    |       BOR expression
-    |       BAND expression
-    |       expression XOR expression
-    |       BNOT expression
-    |       NOT expression 
-    |       expression BLSHIFT expression
-    |       expression BRSHIFT expression
-    |       ROBRAC expression RCBRAC
-    |       INC expression
-    |       expression INC
-    |       DEC expression
-    |       expression DEC
-    |       MINUS variables
-    |       ICONST
-    |       variables;
+        |       expression MINUS expression    
+        |       expression DIVIDE expression
+        |       expression POINTER expression
+        |       expression MOD expression
+        |       expression OR expression
+        |       expression AND expression
+        |       expression EQ expression
+        |       expression NEQ expression
+        |       expression LT expression
+        |       expression LTE expression
+        |       expression GTE expression
+        |       expression GT expression
+        |       BOR expression
+        |       BAND expression
+        |       expression XOR expression
+        |       BNOT expression
+        |       NOT expression 
+        |       expression BLSHIFT expression
+        |       expression BRSHIFT expression
+        |       ROBRAC expression RCBRAC
+        |       INC expression
+        |       expression INC
+        |       DEC expression
+        |       expression DEC
+        |       MINUS variables
+        |       variables ASSIGN expression
+        |       ICONST
+        |       variables;
 
 unary:      unary INC
-    |       INC unary
-    |       DEC unary
-    |       unary DEC
-    |       variables
+        |       INC unary
+        |       DEC unary
+        |       unary DEC
+        |       variables
     ;
 
 variables:
         ID multi_dim
         | pointer ID multi_dim;
 
-multi_dim: array | ;
+multi_dim: array 
+        | ;
 
 pointer: pointer POINTER | POINTER;
 

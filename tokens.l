@@ -30,6 +30,10 @@ FCONST     {digit}+"."{digit}+
 ";"      { return SEMICOLON;} 
 ","      { return COMMA; }
 "="      { return ASSIGN; }
+	/*..........LOOP KEYWORDS..........*/
+
+"for"	{return FOR;}
+"while"	{return WHILE;}
 
 	/*..........ARITHMETIC OPERATORS..........*/
 "+"      {return PLUS;}
@@ -39,6 +43,7 @@ FCONST     {digit}+"."{digit}+
 "++"     {return INC;}
 "--"     {return DEC;}
 
+	/*..........BOOLEAN OPERATORS..........*/
 "||"     {return OR;}
 "&&"     {return AND;}
 "!"     {return NOT;}
@@ -48,7 +53,7 @@ FCONST     {digit}+"."{digit}+
 "^"		{return XOR;}
 "<<"	{return BLSHIFT;}
 ">>"	{return BRSHIFT;}
-
+	/*..........CONDITIONAL OPERATORS..........*/
 "=="     {return EQ;}
 "!="     {return NEQ;}
 "<"     {return LT;}
