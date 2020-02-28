@@ -73,6 +73,8 @@ FCONST     {digit}+"."{digit}+
 
 "*"   {return POINTER;}
 "return"	{return RETURN;}
+"break"		{return BREAK;}
+"continue"	{return CONTINUE;}
 
 
 {ID}         { return ID; }

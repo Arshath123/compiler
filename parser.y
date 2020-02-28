@@ -16,7 +16,7 @@ int yylex();
 %token OR AND NOT BOR BAND BNOT XOR BLSHIFT BRSHIFT
 %token EQ NEQ LT LTE GT GTE
 %token FOR WHILE DO
-%token RETURN
+%token RETURN BREAK CONTINUE
 
 %left COMMA
 %left OR 
@@ -79,6 +79,8 @@ simple_statement: if_statement
         |       for_statement
         |       function_call SEMICOLON
         |       declaration SEMICOLON
+        |       BREAK SEMICOLON
+        |       CONTINUE SEMICOLON
         |       assignment SEMICOLON 
         |       unary SEMICOLON
         |       ICONST SEMICOLON

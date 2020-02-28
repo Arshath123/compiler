@@ -16,6 +16,11 @@ int main(){
                 i++;
                 int ans = sum(i,j);
                 j = sum(a,b);
+                if(j<10)
+                    break;
+                else{
+                    continue;
+                }
                 func(ans,j);
             }while(i<10);
         }
