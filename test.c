@@ -40,9 +40,18 @@ for(;;){
             }
             for(;m=j;m=10)
                 a[1][1] = k + m;
+            while(m<10)
+                c = m;
             if(f){
-
+                while(k){
+                    ;
+                    ;
+                    k--;
+                }
             }
         }
     }
+}
+while(d++,a++){
+    c--;
 }

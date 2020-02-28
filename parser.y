@@ -53,6 +53,7 @@ statement:     simple_statement
 complex_statement: COBRAC statements CCBRAC;
 
 simple_statement: if_statement 
+        |       while_statement
         |       for_statement
         |       declaration SEMICOLON
         |       assignment SEMICOLON 
@@ -78,6 +79,10 @@ if_body:        ELSE statement
 for_statement: FOR ROBRAC expression_statement expression_statement multi_exp RCBRAC statement
         |      FOR ROBRAC expression_statement expression_statement assignment RCBRAC statement
         |      FOR ROBRAC expression_statement expression_statement RCBRAC statement;
+
+while_statement: WHILE ROBRAC multi_exp RCBRAC statement
+        |        WHILE ROBRAC assignment RCBRAC statement
+        ;
 
 assignment: variables ASSIGN multi_exp;
 
