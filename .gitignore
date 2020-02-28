@@ -4,3 +4,7 @@ a.out
 parser.tab.c
 lex.yy.c
 parser.tab.h
+temp.tab.c
+temp.tab.h
+y.tab.c
+t.y

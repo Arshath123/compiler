@@ -32,15 +32,30 @@ int yylex();
 %right BNOT NOT
 %right ASSIGN
 
+
+%nonassoc LOWER
+%nonassoc ELSE
+%nonassoc ELSEIF
+
 %define parse.error verbose
 
 %start program
 %%
 
-program:    program statement SEMICOLON;
-    |       
+program:   statements;
 
-statement: declaration | assignment | unary | ICONST;
+statements:  statements statement | ;
+
+statement:     simple_statement 
+        |       complex_statement;
+
+complex_statement: COBRAC statements CCBRAC;
+
+simple_statement: if_statement 
+        |       declaration SEMICOLON
+        |       assignment SEMICOLON 
+        |       unary SEMICOLON
+        |       ICONST SEMICOLON;
 
 declaration: type name;
 
@@ -49,6 +64,14 @@ name: name COMMA declare | declare;
 declare: assignment | variables ;
 	
 type: INT | FLOAT | CHAR | DOUBLE;
+
+
+if_statement:   IF ROBRAC expression RCBRAC statement if_body;
+
+if_body:        ELSE statement
+        |       ELSEIF ROBRAC expression RCBRAC statement %prec LOWER
+        |       ELSEIF ROBRAC expression RCBRAC statement ELSE statement
+        |       %prec LOWER;
 
 assignment: variables ASSIGN expression;
 
