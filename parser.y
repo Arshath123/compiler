@@ -95,10 +95,13 @@ declare: assignment | variables ;
 	
 if_statement:   IF ROBRAC multi_exp RCBRAC statement if_body;
 
-if_body:        ELSE statement
-        |       ELSEIF ROBRAC multi_exp RCBRAC statement %prec LOWER
-        |       ELSEIF ROBRAC multi_exp RCBRAC statement ELSE statement
+if_body:        elseif_statement 
         |       %prec LOWER;
+
+elseif_statement: ELSEIF ROBRAC multi_exp RCBRAC statement %prec LOWER 
+        |       ELSEIF ROBRAC multi_exp RCBRAC statement elseif_statement
+        |       ELSE statement
+        ;
 
 for_statement: FOR ROBRAC expression_statement expression_statement multi_exp RCBRAC statement
         |      FOR ROBRAC expression_statement expression_statement assignment RCBRAC statement
